@@ -1,27 +1,39 @@
-#import libraries
+#imports
 import numpy as np
 from flask import Flask, render_template,request
 import pickle
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.datasets import fetch_20newsgroups
 
-#Initialize the flask App
+from NewsNlp import NewsNlp
+
+#globals
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
 
+#our created class
+news = NewsNlp()
 
-#default page of our web-app
+#index
 @app.route('/')
 def home():
     return render_template('index.html')
 
-#To use the predict button in our web-app
+#training
+@app.route('/train', methods=["POST"])
+def train():
+    cats = request.form.getlist('check')
+    news.training(cats)
+    message="successful"
+    return render_template('index.html', message=message)
+
+#predicting
 @app.route('/predict',methods=['POST'])
 def predict():
-    #For rendering results on HTML GUI
-    int_features = [float(x) for x in request.form.values()]
-    final_features = [np.array(int_features)]
-    prediction = model.predict(final_features)
-    output = round(prediction[0], 2) 
-    return render_template('index.html', prediction_text='CO2    Emission of the vehicle is :{}'.format(output))
+    input_string = request.form["textToPredict"]
+    predicted = news.predict(input_string)
+    return render_template('index.html', prediction_text=predicted)
 
 if __name__ == "__main__":
     app.run(debug=True)

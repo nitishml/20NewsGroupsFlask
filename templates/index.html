@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>News Group NLP</title>
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>News group NLP</h1>
+	<h4>Dataset:</h4><h3>20 news groups dataset	 </h3>
+	<span>The 20 Newsgroups data set is a collection of approximately 20,000 newsgroup documents, partitioned (nearly) evenly across 20 different newsgroups. To the best of my knowledge, it was originally collected by Ken Lang, probably for his Newsweeder: Learning to filter netnews paper, though he does not explicitly mention this collection. The 20 newsgroups collection has become a popular data set for experiments in text applications of machine learning techniques, such as text classification and text clustering.</span>
+	<br />
+	Download it <a href="http://qwone.com/~jason/20Newsgroups/">here</a > and <a href="https://www.kaggle.com/datasets/crawford/20-newsgroups">here</a>
+	
+	<div>
+		<h2>News groups list</h2>
+		Select the ones to train the model with <br />
+		max 3 allowed with this version
+
+		<br />
+<br />
+
+<form method="POST" action="{{ url_for('train') }}">
+
+
+<input type="checkbox" class="check" name="check" id="comp.windows.x" value="comp.windows.x">
+<label class="layout" for="comp.windows.x">comp.windows.x</label>
+
+<input type="checkbox" class="check" name="check" id="comp.os.ms-windows.misc" value="comp.os.ms-windows.misc" >
+<label class="layout" for="comp.os.ms-windows.misc">comp.os.ms-windows.misc</label>
+
+
+<input type="checkbox" class="check" name="check" id="comp.sys.ibm.pc.hardware" value="comp.sys.ibm.pc.hardware" >
+<label class="layout" for="comp.sys.ibm.pc.hardware">comp.sys.ibm.pc.hardware</label>
+
+
+<input type="checkbox" class="check" name="check" id="comp.graphics" value="comp.graphics">
+<label class="layout" for="comp.graphics">comp.graphics</label>
+
+
+<input type="checkbox" class="check" name="check" id="comp.sys.mac.hardware" value="comp.sys.mac.hardware">
+<label class="layout" for="comp.sys.mac.hardware">comp.sys.mac.hardware</label>
+
+
+<input type="checkbox" class="check" name="check" id="rec.autos" value="rec.autos" >
+<label class="layout" for="rec.autos">rec.autos</label>
+
+
+<input type="checkbox" class="check" name="check" id="rec.motorcycles" value="rec.motorcycles">
+<label class="layout" for="rec.motorcycles">rec.motorcycles</label>
+
+
+<input type="checkbox" class="check" name="check" id="rec.sport.baseball" value="rec.sport.baseball" >
+<label class="layout" for="rec.sport.baseball">rec.sport.baseball</label>
+
+
+<input type="checkbox" class="check" name="check" id="rec.sport.hockey" value="rec.sport.hockey">
+<label class="layout" for="rec.sport.hockey">rec.sport.hockey</label>
+
+
+<input type="checkbox" class="check" name="check" id="sci.crypt" value="sci.crypt" >
+<label class="layout" for="sci.crypt">sci.crypt</label>
+
+
+<input type="checkbox" class="check" name="check" id="sci.electronics" value="sci.electronics" >
+<label class="layout" for="sci.electronics">sci.electronics</label>
+
+
+<input type="checkbox" class="check" name="check" id="sci.med" value="sci.med" >
+<label class="layout" for="sci.med">sci.med</label>
+
+
+<input type="checkbox" class="check" name="check" id="sci.space" value="sci.space" >
+<label class="layout" for="sci.space">sci.space</label>
+
+
+<input type="checkbox" class="check" name="check" id="misc.forsale" value="misc.forsale">
+<label class="layout" for="misc.forsale">misc.forsale</label>
+
+
+<input type="checkbox" class="check" name="check" id="talk.politics.misc" value="talk.politics.misc" >
+<label class="layout" for="talk.politics.misc">talk.politics.misc</label>
+
+
+<input type="checkbox" class="check" name="check" id="talk.politics.guns" value="talk.politics.guns">
+<label class="layout" for="talk.politics.guns">talk.politics.guns</label>
+
+
+<input type="checkbox" class="check" name="check" id="talk.politics.mideast" value="talk.politics.mideast" >
+<label class="layout" for="talk.politics.mideast">talk.politics.mideast</label>
+
+
+<input type="checkbox" class="check" name="check" id="talk.religion.misc" value="talk.religion.misc" >
+<label class="layout" for="talk.religion.misc">talk.religion.misc</label>
+
+
+<input type="checkbox" class="check" name="check" id="alt.atheism" value="alt.atheism">
+<label class="layout" for="alt.atheism">alt.atheism</label>
+
+
+<input type="checkbox" class="check" name="check" id="soc.religion.christian" value="soc.religion.christia">
+<label class="layout" for="soc.religion.christian">soc.religion.christian</label>
+
+<br />
+		<br />
+<input type="submit" name="categoriesList">
+
+</form>
+<br />
+<br />
+		<div><h2> {{ message }} </h2></div>
+		<form action="{{ url_for('predict') }}" method="POST">
+		<span><h4>Enter text to predict</h4></span>
+		<input type="text" name="textToPredict">
+		<input type="hidden" value="{{ cat1 }}" name="cat1">
+		<input type="hidden" value="{{ cat2 }}" name="cat2">
+		<input type="hidden" value="{{ cat3 }}" name="cat3">
+		<input type="submit" name="PredTextSubmit"><br />
+
+		</form>
+		<br />
+		<br />
+		<span>This topic is discussed in : </span>
+		<h2><p>{{ prediction_text }}</p></h2>
+	</div>
+<script>
+	$("input:checkbox").click(function() {
+var bol = $("input:checkbox:checked").length >= 3;     
+$("input:checkbox").not(":checked").attr("disabled",bol);
+});
+</script>
+</body>
+</html>
